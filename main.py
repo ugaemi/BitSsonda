@@ -49,7 +49,6 @@ class BitSsonda:
 
         while True:
             data = wm.get()
-            print(data)
             trade_date = data.get("trade_date")
             self.check_today(trade_date)
             self.hooking(**data)
