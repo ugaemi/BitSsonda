@@ -1,5 +1,6 @@
 import json
 import locale
+import os
 from datetime import *
 
 import pyupbit
@@ -7,7 +8,8 @@ import requests
 import redis
 
 
-SLACK_URL = "https://hooks.slack.com/services/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"
+SLACK_URL = os.environ.get('SLACK_URL')
+HOST = os.environ.get('HOST')
 
 
 def check_today(trade_date):
@@ -61,5 +63,5 @@ def upbit_ws_client():
 
 if __name__ == "__main__":
     print("App started!")
-    rd = redis.StrictRedis(host='localhost', port=6379, db=0)
+    rd = redis.StrictRedis(host=HOST, port=6379, db=0)
     upbit_ws_client()
