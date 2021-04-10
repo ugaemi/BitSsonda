@@ -3,13 +3,14 @@ import locale
 import os
 from datetime import *
 
+import pytz
 import pyupbit
 import requests
 
 
 class BitSsonda:
     def __init__(self):
-        self.db = {"date": datetime.now().strftime('%Y%m%d')}
+        self.db = {"date": datetime.now(tz).strftime('%Y%m%d')}
         self.SLACK_URL = os.environ.get('SLACK_URL')
 
     def check_today(self, trade_date):
@@ -36,7 +37,7 @@ class BitSsonda:
             self.db[code] = signed_change_rate
             res = requests.post(
                 self.SLACK_URL,
-                data=json.dumps({"text": f"⏰ {datetime.now().strftime('%H:%M')} 🪙 {code} 📈 {signed_change_rate}% 💰 {int(trade_price):,}원"}),
+                data=json.dumps({"text": f"⏰ {datetime.now(tz).strftime('%H%M')} 🪙 {code} 📈 {signed_change_rate}% 💰 {int(trade_price):,}원"}),
                 headers={"Content-Type": "application/json; charset=utf-8"}
             )
 
@@ -57,5 +58,6 @@ class BitSsonda:
 if __name__ == "__main__":
     print("App started!")
     locale.setlocale(locale.LC_ALL, '')
+    tz = pytz.timezone('Asia/Seoul')
     cls = BitSsonda()
     cls.run()
