@@ -2,10 +2,12 @@ import json
 import locale
 import os
 from datetime import *
+from urllib import parse
 
 import pyupbit
 import requests
 import redis
+import urllib.parse
 
 
 SLACK_URL = os.environ.get('SLACK_URL')
@@ -63,5 +65,12 @@ def upbit_ws_client():
 
 if __name__ == "__main__":
     print("App started!")
-    rd = redis.StrictRedis(host=HOST, port=6379, db=0)
+
+    redis_url = os.environ.get('REDISTOGO_URL')
+    if not redis_url:
+        raise RuntimeError('Set up Redis To Go first.')
+
+    parse.uses_netloc.append('redis')
+    url = parse.urlparse(redis_url)
+    rd = redis.StrictRedis(host=url.hostname, port=6379, db=0)
     upbit_ws_client()
