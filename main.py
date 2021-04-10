@@ -37,7 +37,7 @@ class BitSsonda:
             self.db[code] = signed_change_rate
             res = requests.post(
                 self.SLACK_URL,
-                data=json.dumps({"text": f"⏰ {datetime.now(tz).strftime('%H%M')} 🪙 {code} 📈 {signed_change_rate}% 💰 {int(trade_price):,}원"}),
+                data=json.dumps({"text": f"⏰ {datetime.now(tz).strftime('%H:%M')} 🪙 {code} 📈 {signed_change_rate}% 💰 {int(trade_price):,}원"}),
                 headers={"Content-Type": "application/json; charset=utf-8"}
             )
 
