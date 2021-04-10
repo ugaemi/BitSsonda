@@ -41,6 +41,7 @@ def slack_webhook(**data):
             data=json.dumps({"text": f"⏰ {datetime.now().strftime('%H:%M')} 🪙 {code} 📈 {signed_change_rate}% 💰 {int(trade_price):,}원"}),
             headers={"Content-Type": "application/json; charset=utf-8"}
         )
+        print(res)
 
         if not res.status_code == 200:
             print(res.__dict__)
@@ -59,5 +60,6 @@ def upbit_ws_client():
 
 
 if __name__ == "__main__":
+    print("App started!")
     rd = redis.StrictRedis(host='localhost', port=6379, db=0)
     upbit_ws_client()
